@@ -1,0 +1,9 @@
+clusters:
+  - name: vhub
+    kubeconfig: /etc/kubes/kubeconfig-vhub.yaml
+  - name: acm1
+    kubeconfig: /etc/kubes/kubeconfig-acm1.yaml
+  - name: acm2
+    kubeconfig: /etc/kubes/kubeconfig-acm2.yaml
+  - name: acm3
+    kubeconfig: /etc/kubes/kubeconfig-acm3.yaml
