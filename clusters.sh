@@ -482,7 +482,7 @@ parse_args() {
 # Show usage information
 show_usage() {
     cat <<EOF
-Usage: lab.sh [OPTIONS] [HUB_NAMES...]
+Usage: clusters.sh[OPTIONS] [HUB_NAMES...]
 
 Options:
   -c, --config FILE    Config file path (default: .lab-hubs.yaml)
@@ -498,12 +498,12 @@ Environment Variables:
   LAB_TIMEOUT          API timeout in seconds (default: 3)
 
 Examples:
-  lab.sh                           # Show all hubs in short mode
-  lab.sh -m full                   # Show all hubs with detailed policies
-  lab.sh acm1 acm2                 # Show only acm1 and acm2 hubs
-  lab.sh -m full acm1              # Show acm1 with detailed policies
-  lab.sh -c custom.yaml            # Use custom config file
-  LAB_TIMEOUT=5 lab.sh             # Use 5 second API timeout
+  clusters.sh                          # Show all hubs in short mode
+  clusters.sh-m full                   # Show all hubs with detailed policies
+  clusters.shacm1 acm2                 # Show only acm1 and acm2 hubs
+  clusters.sh-m full acm1              # Show acm1 with detailed policies
+  clusters.sh-c custom.yaml            # Use custom config file
+  LAB_TIMEOUT=5 clusters.sh            # Use 5 second API timeout
 
 Config file format:
 clusters:
