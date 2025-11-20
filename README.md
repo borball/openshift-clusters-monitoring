@@ -5,7 +5,7 @@ A bash-based monitoring tool for OpenShift Advanced Cluster Management (ACM) env
 ## Overview
 
 This tool creates a visual dashboard that displays:
-- **Hub Cluster Information**: Name, version, and node status
+- **Hub Cluster Information**: Name, version, node status, API URL, Console URL, and GitOps URL
 - **Spoke Clusters**: Status, OpenShift version, configuration version, and API endpoints
 - **Policy Compliance**: Governance policy compliance status for managed clusters
 

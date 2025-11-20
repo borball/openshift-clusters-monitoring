@@ -159,6 +159,23 @@ get_hub_nodes_summary() {
     fi
 }
 
+# Get hub cluster API URL
+get_hub_api() {
+    oc whoami --show-server --request-timeout="${API_TIMEOUT}s" 2>/dev/null | sed 's|^https://||' || echo "N/A"
+}
+
+# Get hub cluster console URL
+get_hub_console() {
+    oc get route console -n openshift-console -o jsonpath='{.spec.host}' --request-timeout="${API_TIMEOUT}s" 2>/dev/null | \
+    sed 's|^|https://|' || echo "N/A"
+}
+
+# Get hub cluster GitOps URL
+get_hub_gitops() {
+    oc get route openshift-gitops-server -n openshift-gitops -o jsonpath='{.spec.host}' --request-timeout="${API_TIMEOUT}s" 2>/dev/null | \
+    sed 's|^|https://|' || echo "N/A"
+}
+
 # Global variable to store policy data
 declare -A POLICY_CACHE
 
@@ -416,11 +433,18 @@ process_hub() {
     local cluster_name=$(get_hub_name)
     local hub_version=$(get_hub_version)
     local nodes_info=$(get_hub_nodes_summary)
+    local hub_api=$(get_hub_api)
+    local hub_console=$(get_hub_console)
+    local hub_gitops=$(get_hub_gitops)
     
     # Print hub cluster board (use config name if available, otherwise cluster name)
     local display_name="${hub_name:-$cluster_name}"
     echo
-    printf "${BLUE}Hub: %-19s (v%-10s)${NC}  |  %s\n" "$display_name" "$hub_version" "$nodes_info"
+    # Align second line with "| Nodes:" from first line
+    # Padding: "Hub: " (5) + name (19) + " (v" (3) + version (10) + ")  " (3) = 40
+    
+    printf "${BLUE}Hub: %-19s (v%-10s)${NC}  |  %s  | API: %s\n" "$display_name" "$hub_version" "$nodes_info" "$hub_api"
+    printf "%40s|  Console: %s  | GitOps: %s\n" "" "$hub_console" "$hub_gitops"
     # Get and display spoke clusters
     print_header "Spoke Clusters"
     get_spoke_clusters
