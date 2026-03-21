@@ -291,7 +291,7 @@ print_box_content() {
     local content="$1"
     local width=${2:-$BOX_WIDTH}
     # Remove ANSI color codes for length calculation
-    local clean_content=$(printf "%b" "$content" | sed -r 's/\x1b\[[0-9;]*m//g')
+    local clean_content=$(printf "%b" "$content" | sed -E 's/\x1b\[[0-9;]*m//g')
     local clean_length=${#clean_content}
     local padding=$((width - clean_length - 6))
     if [ $padding -lt 0 ]; then
@@ -482,10 +482,10 @@ parse_args() {
 # Show usage information
 show_usage() {
     cat <<EOF
-Usage: clusters.sh[OPTIONS] [HUB_NAMES...]
+Usage: clusters.sh [OPTIONS] [HUB_NAMES...]
 
 Options:
-  -c, --config FILE    Config file path (default: .lab-hubs.yaml)
+  -c, --config FILE    Config file path (default: .clusters.yaml)
   -m, --mode MODE      Display mode: full or short (default: short)
                        full:  Show spoke clusters with detailed policies
                        short: Show spoke clusters with policy summary
@@ -499,11 +499,11 @@ Environment Variables:
 
 Examples:
   clusters.sh                          # Show all hubs in short mode
-  clusters.sh-m full                   # Show all hubs with detailed policies
-  clusters.shacm1 acm2                 # Show only acm1 and acm2 hubs
-  clusters.sh-m full acm1              # Show acm1 with detailed policies
-  clusters.sh-c custom.yaml            # Use custom config file
-  LAB_TIMEOUT=5 clusters.sh            # Use 5 second API timeout
+  clusters.sh -m full                  # Show all hubs with detailed policies
+  clusters.sh acm1 acm2               # Show only acm1 and acm2 hubs
+  clusters.sh -m full acm1            # Show acm1 with detailed policies
+  clusters.sh -c custom.yaml          # Use custom config file
+  LAB_TIMEOUT=5 clusters.sh           # Use 5 second API timeout
 
 Config file format:
 clusters:
